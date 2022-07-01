@@ -1,5 +1,5 @@
 
-
+// will keep player name from being empty, and provide player name to start game.
 var getPlayerName = function() {
   var name = "";
 
@@ -10,27 +10,45 @@ var getPlayerName = function() {
   return name;
 
 }
+
+var fightOrSkip = function () {
+  //ask player if they'd like to fight or skip using fightOrSkip funtion.
+    var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose. ' );
+  //!promptFight is referring to values such as null, '', Nan and 0
+ 
+
+  if (promptFight === "" || promptFight === null ) {
+        window.alert("You need to provide a valid answer! Try again.");
+        return fightOrSkip();
+      }
+    
+
+  promptFight = promptFight.toLowerCase();
+  if (promptFight === "skip" || promptFight === "SKIP") {
+    var confirmSkip = window.confirm ("Are your sure you'd like to quit?");
+
+    if (confirmSkip) {
+      window.alert(playerInfo.name + " has decided to skip this fight. Bye!");
+
+      playerInfo.playerMoney = playerInfo.money - 10;
+      return true;
+
+      shop();
+
+      
+  }
+ }
+ return false;
+}
+
 // fight function (now with parameter for enemy's name)
 var fight = function(enemy) {
   
   while (playerInfo.health > 0 && enemy.health > 0) {
     // ask player if they'd like to fight or run
-    var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
-
-    // if player picks "skip" confirm and then stop the loop
-    if (promptFight === "skip" || promptFight === "SKIP") {
-      // confirm player wants to skip
-      var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-
-      // if yes (true), leave fight
-      if (confirmSkip) {
-        window.alert(playerInfo.name + ' has decided to skip this fight. Goodbye!');
-        // subtract money from playerInfo.money for skipping
-        playerInfo.money = Math.max(0, playerInfo.money - 10);
-        console.log("Money", playerInfo.money);
-        break;
-      };
-    };
+  if (fightOrSkip()) {
+    break;
+  }
 
     // remove enemy's health by subtracting the amount set in the playerInfo.attack variable
     var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
