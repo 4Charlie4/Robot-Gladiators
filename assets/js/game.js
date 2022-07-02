@@ -104,7 +104,6 @@ if (isPlayerTurn) {
 
 //function to start a new game
 var startGame = function() {
-//debugger;
 
 //reset player stats
 playerInfo.reset();
@@ -151,13 +150,26 @@ endGame();
 };
 
 var endGame = function() {
-  //if player is still alive, player wins!
-  if (playerInfo.health > 0) {
-    window.alert("Great job, you've survived the game! You now have a score of " + playerInfo.money + " .");
-  } 
+  
+  window.alert("GameOver. Lets see how you did!");
+
+  var highScore = localStorage.getItem("highscore");
+  if (highScore === null) {
+    highScore = 0;
+  }
+
+  if(playerInfo.money > highScore) {
+    localStorage.setItem("highScore", playerInfo.money);
+    localStorage.setItem("name", playerInfo.name);
+
+    alert(playerInfo.name + " now has the high score of " + playerInfo.money + " !");
+  
+  }
   else {
-    window.alert("You LOSE!");
-  };
+    alert(playerInfo.name + " did not beat the high score of" + highScore + "Try again!");
+  }
+
+
 
   var playAgainConfirm = window.confirm("Would you like to play again?");
 
